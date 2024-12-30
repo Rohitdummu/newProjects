@@ -1,12 +1,32 @@
 'use client'
-
+import { useToast } from "@/hooks/use-toast"
 import { Field, Label, Switch } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/16/solid'
 import { useState } from 'react'
 
+
 export default function ContactMe() {
     const [agreed, setAgreed] = useState(false)
-
+    const { toast } = useToast()
+    const [name, setName] = useState()
+    const [company, setCompany] = useState()
+    const [email, setEmail] = useState()
+    const [msg, setMsg] = useState()
+    const handleChange = (event) => {
+        event.preventDefault();
+        if (event.target.name === "full-name") {
+            setName(event.target.value)
+        }
+        if (event.target.name === "company") {
+            setCompany(event.target.value)
+        }
+        if (event.target.name === "email") {
+            setEmail(event.target.value)
+        }
+        if (event.target.name === "message") {
+            setMsg(event.target.value)
+        }
+    };
     return (
         <section id="contactme">
             <div className="isolate bg-black px-6 py-24 sm:py-32 lg:px-8">
@@ -38,6 +58,8 @@ export default function ContactMe() {
                                     type="text"
                                     autoComplete="given-name"
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+                                    value={name}
+                                    onChange={(e) => handleChange(e)}
                                 />
                             </div>
                         </div>
@@ -52,6 +74,8 @@ export default function ContactMe() {
                                     type="text"
                                     autoComplete="organization"
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+                                    value={company}
+                                    onChange={(e) => handleChange(e)}
                                 />
                             </div>
                         </div>
@@ -66,6 +90,8 @@ export default function ContactMe() {
                                     type="email"
                                     autoComplete="email"
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
+                                    value={email}
+                                    onChange={(e) => handleChange(e)}
                                 />
                             </div>
                         </div>
@@ -80,11 +106,12 @@ export default function ContactMe() {
                                     name="message"
                                     rows={4}
                                     className="block w-full rounded-md bg-white px-3.5 py-2 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600"
-                                    defaultValue={''}
+                                    value={msg}
+                                    onChange={(e) => handleChange(e)}
                                 />
                             </div>
                         </div>
-                        <Field className="flex gap-x-4 sm:col-span-2">
+                        {/* <Field className="flex gap-x-4 sm:col-span-2">
                             <div className="flex h-6 items-center">
                                 <Switch
                                     checked={agreed}
@@ -105,18 +132,26 @@ export default function ContactMe() {
                                 </a>
                                 .
                             </Label>
-                        </Field>
+                        </Field> */}
                     </div>
                     <div className="mt-10">
                         <button
                             type="submit"
                             className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                toast({
+                                    variant: "destructive",
+                                    title: "Scheduled: Catch up",
+                                    description: "Friday, February 10, 2023 at 5:57 PM",
+                                })
+                            }}
                         >
-                            Let's talk
+                            Let's tak
                         </button>
                     </div>
                 </form>
-            </div>
-        </section>
+            </div >
+        </section >
     )
 }
